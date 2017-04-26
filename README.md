@@ -1,2 +1,2 @@
 # WXRobot
-collect Bugs from wx
+#用于从微信群中提取bug反馈，并根据每个人反馈的信息进行筛选统计
