@@ -13,6 +13,12 @@ from itchat.content import *
 RobotName =u'小安'
 
 
+def console_log(string):
+    """输出调试信息"""
+    output = open('log.txt','w')
+    output.write(str(string))
+
+
 @itchat.msg_register([TEXT, MAP, CARD, NOTE, SHARING])
 def get_text(msg):
     """处理消息"""
@@ -36,11 +42,14 @@ def add_friend(msg):
     msg.user.verify()
     msg.user.send('Nice to meet you!')
 
+Item = Bugs()
+
 
 @itchat.msg_register(TEXT, isGroupChat=True)
 def get_text(msg):
     """回复群消息"""
-    if msg['isAt'] and msg.Content.startswith(u'@%s' % RobotName):
+    console_log(msg)
+    if msg['IsAt'] and msg.Content.startswith(u'@%s' % RobotName):
         itchat.send(u'@%s\u2005 %s' % (msg['ActualNickName'], msg['Content'].replace(u'@%s' % RobotName,'')),msg['FromUserName'])
 
 
