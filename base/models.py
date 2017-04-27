@@ -6,10 +6,11 @@ from django.utils import timezone
 
 class Bugs(models.Model):
     def __unicode__(self):
-        return self.datetime
-    user = models.CharField(max_length=255)
+        return self.user
+    user = models.CharField('用户',max_length=255)
+    projectName = models.CharField('项目名称',max_length=255)
     add_date = models.DateTimeField('创建日期',auto_now=True)
     last_date = models.DateTimeField('最后修改日期',auto_now=True)
-    content = models.TextField(null=True)
-    img = models.ImageField(default='')
-    result = models.BooleanField(default=False)
+    content = models.TextField('Bug内容',null=True)
+    img = models.ImageField('图片',default='')
+    result = models.BooleanField('处理情况',default=False)
