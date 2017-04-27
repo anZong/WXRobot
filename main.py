@@ -10,6 +10,12 @@ import itchat
 from itchat.content import *
 
 
+def console_log(string):
+    """输出调试信息"""
+    output = open('log.txt','w')
+    output.write(str(string))
+
+
 @itchat.msg_register([TEXT, MAP, CARD, NOTE, SHARING])
 def get_text(msg):
     """处理消息"""
@@ -32,6 +38,8 @@ def download_files(msg):
     msg.download('static/'+msg.fileName)
     IMGS.append(msg.fileName)
 
+Item = Bugs()
+
 
 @itchat.msg_register(TEXT, isGroupChat=True)
 def get_text(msg):
@@ -53,6 +61,7 @@ def get_text(msg):
     if COLLECT_BUGS_BEGIN and msg['ActualNickName']==USER:
         bug = msg['Content'].replace('#{','')
         if bug:BUGS.append(bug)
+
 
     if COLLECT_BUGS_END:
         COLLECT_BUGS_END = False
