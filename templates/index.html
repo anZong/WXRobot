@@ -1,0 +1,90 @@
+{% load myfilters %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BUG收集</title>
+    <style>
+        table{
+            border-collapse:collapse;
+            width: 80%;
+            margin: 10px auto;
+        }
+        th{
+            height: 60px;
+            line-height: 60px;
+        }
+        td,th{
+            border: 1px solid #DEDEDE;
+            text-align: center;
+        }
+        img{
+            width: 100px;
+            height:60px;
+        }
+        a.btn{
+            display: inline-block;
+            text-decoration: none;
+            color:white;
+            background-color: #F87658;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .is_ok{
+            background-color: rgba(46, 184, 138, 0.5);
+        }
+        .is_not_ok{
+            background-color: rgba(250, 0, 0, 0.08);
+        }
+    </style>
+</head>
+<body>
+<table>
+    <tr>
+        <th>序号</th>
+        <th>收集时间</th>
+        <th>项目名称</th>
+        <th>用户</th>
+        <th>Bug内容</th>
+        <th>图片</th>
+        <th>最后修改时间</th>
+        <th>状态</th>
+    </tr>
+    {% for bug in bugs_list %}
+        <tr class="{%if bug.result %}is_ok{% else %}is_not_ok{% endif %}">
+            <td>{{ forloop.counter }}</td>
+            <td>{{ bug.add_date|date:'Y-m-d h:i:s'}}</td>
+            <td>{{ bug.projectName }}</td>
+            <td>{{ bug.user }}</td>
+            <td style="text-align: left">
+                {% for s in bug.content|split:',' %}
+                   {{ s }}<br/>
+                {% endfor %}
+            </td>
+            <td>
+                {% for s in bug.img|split:',' %}
+                    <img src="{% static s %}" alt="">
+                {% endfor %}
+            </td>
+            <td>{{ bug.last_date|date:'Y-m-d h:i:s' }}</td>
+            <td>
+                {% if bug.result %}
+                    已处理
+                {% else %}
+                    待处理
+                    <a class="btn" href="/{{ bug.id }}/">标记</a>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+</body>
+<script>
+    var BASE_TIME = 1000;
+    var time = setInterval(function () {
+        location.reload()
+    },BASE_TIME*30)
+</script>
+</html>

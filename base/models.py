@@ -12,5 +12,5 @@ class Bugs(models.Model):
     add_date = models.DateTimeField('创建日期',auto_now=True)
     last_date = models.DateTimeField('最后修改日期',auto_now=True)
     content = models.TextField('Bug内容',null=True)
-    img = models.ImageField('图片',default='')
+    img = models.CharField('图片',max_length=255)
     result = models.BooleanField('处理情况',default=False)

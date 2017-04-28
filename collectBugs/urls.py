@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from base import views
 
 urlpatterns = [
+    url(r'^$',views.IndexView.as_view(),name='index'),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^(?P<bug_id>[0-9]+)/$',views.SignView,name='sign')
 ]
