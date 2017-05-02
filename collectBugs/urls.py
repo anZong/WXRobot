@@ -20,5 +20,6 @@ from base import views
 urlpatterns = [
     url(r'^$',views.IndexView.as_view(),name='index'),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^page=(?P<page>[0-9]+)/$',views.PageView,name='sign'),
     url(r'^(?P<bug_id>[0-9]+)/$',views.SignView,name='sign')
 ]

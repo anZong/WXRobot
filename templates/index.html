@@ -33,10 +33,14 @@
             font-size: 12px;
         }
         .is_ok{
-            background-color: rgba(46, 184, 138, 0.5);
+            color: green;
         }
         .is_not_ok{
-            background-color: rgba(250, 0, 0, 0.08);
+            color: red;
+        }
+        tr:hover{
+            background-color: rgba(6, 174, 6, 0.08);
+            cursor: pointer;
         }
     </style>
 </head>
@@ -48,38 +52,48 @@
         <th>项目名称</th>
         <th>用户</th>
         <th>Bug内容</th>
-        <th>图片</th>
         <th>最后修改时间</th>
         <th>状态</th>
     </tr>
-    {% for bug in bugs_list %}
-        <tr class="{%if bug.result %}is_ok{% else %}is_not_ok{% endif %}">
-            <td>{{ forloop.counter }}</td>
-            <td>{{ bug.add_date|date:'Y-m-d h:i:s'}}</td>
-            <td>{{ bug.projectName }}</td>
-            <td>{{ bug.user }}</td>
-            <td style="text-align: left">
-                {% for s in bug.content|split:',' %}
-                   {{ s }}<br/>
-                {% endfor %}
-            </td>
-            <td>
-                {% for s in bug.img|split:',' %}
-                    <img src="{% static s %}" alt="">
-                {% endfor %}
-            </td>
-            <td>{{ bug.last_date|date:'Y-m-d h:i:s' }}</td>
-            <td>
-                {% if bug.result %}
-                    已处理
-                {% else %}
-                    待处理
-                    <a class="btn" href="/{{ bug.id }}/">标记</a>
+    {% if bugs_list %}
+        {% for bug in bugs_list %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ bug.add_date|date:'Y-m-d H:i:s'}}</td>
+                <td>{{ bug.projectName }}</td>
+                <td>{{ bug.user }}</td>
+                <td style="text-align: left">
+                {% if bug.content %}
+                    {% for s in bug.content|split:','%}
+                        {% if 'img:' in s %}
+                            <img src="/static/{{ s|replace:'img:'}}" alt="">
+                        {% else %}
+                            {{ s }}<br/>
+                        {% endif %}
+                    {% endfor %}
                 {% endif %}
-            </td>
+                </td>
+                <td>{{ bug.last_date|date:'Y-m-d H:i:s' }}</td>
+                <td>
+                    {% if bug.result %}
+                        <span class="is_ok">已处理</span>
+                    {% else %}
+                        <span class="is_not_ok">待处理</span>
+                        <a class="btn" href="/{{ bug.id }}/">标记</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="7" style="height: 100px;line-height: 100px">暂无BUG</td>
         </tr>
-    {% endfor %}
+    {% endif %}
 </table>
+{#<div>#}
+{#    <a href="/page=">上一页</a>#}
+{#    <a href="/page=">下一页</a>#}
+{#</div>#}
 </body>
 <script>
     var BASE_TIME = 1000;

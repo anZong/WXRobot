@@ -30,6 +30,7 @@ PROJECT_NAME = '' #项目名称
 FLAG_START = '#{'
 FLAG_END = '}'
 
+
 @itchat.msg_register([PICTURE, RECORDING, ATTACHMENT, VIDEO], isGroupChat=True)
 def download_files(msg):
     """收集图片"""
@@ -57,7 +58,7 @@ def get_text(msg):
         COLLECT_BUGS_BEGIN = False
 
     if COLLECT_BUGS_BEGIN and msg['ActualNickName']==USER:
-        bug = msg['Content'].replace(FLAG_START,'')
+        bug = msg['Content'].replace(FLAG_START, '')
         if bug: BUGS += bug+','
     if COLLECT_BUGS_END:
         COLLECT_BUGS_END = False

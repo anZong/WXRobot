@@ -4,6 +4,10 @@ from .models import Bugs
 from django.views import generic
 from django.contrib import staticfiles
 
+PAGE = 1
+CUR_PAGE = 1
+SIZE = 20
+
 
 class IndexView(generic.ListView):
     """获取bug列表"""
@@ -19,3 +23,11 @@ def SignView(request,bug_id):
     bug.result = True
     bug.save()
     return render(request,'index.html',{'bugs_list':Bugs.objects.order_by('-id')})
+
+
+def PageView(request, page):
+    """分页"""
+    global CUR_PAGE
+    content = Bugs.objects.order_by('-id')[CUR_PAGE+(int(page))*SIZE:page*SIZE]
+    CUR_PAGE += int(page)
+    return render(request,'index.html',{'bug_list':content})
